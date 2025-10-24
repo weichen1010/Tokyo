@@ -1,0 +1,30 @@
+# 定義一個名為 'pages' 的 CI/CD 任務 (Job)。
+# 'pages' 是 GitLab Pages 服務用於自動發佈的關鍵名稱。
+pages:
+  # 使用輕量級的 Node.js 基礎映像檔來執行 Job。
+  image: node:20.11.0-alpine 
+  
+  # 將這個 Job 放在 'deploy' 階段。
+  stage: deploy
+  
+  # 執行的命令腳本。
+  script:
+    # 1. 建立一個暫時資料夾。
+    - mkdir .public
+    
+    # 2. 將專案根目錄下的所有檔案（包括 index.html）移動到這個暫時資料夾。
+    # 這是為了符合 Pages 服務要求內容必須在 public 資料夾中的規定。
+    - mv * .public
+    
+    # 3. 將暫時資料夾重新命名為 'public'。
+    - mv .public public
+
+  # artifacts 定義了 Job 執行後要儲存的輸出。
+  # 這裡將 public 資料夾的內容設為發布成品。
+  artifacts:
+    paths:
+      - public
+  
+  # 定義規則：只有當提交發生在預設分支（如 main, master）時才執行此 Job。
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
