@@ -480,12 +480,12 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 預設載入 Day 8
-            const defaultTab = document.querySelector('.nav-tab[data-tab="day8"]');
+            // 預設載入 實用連結
+            const defaultTab = document.querySelector('.nav-tab[data-tab="實用連結"]');
             if (defaultTab) {
                  navTabs.forEach(t => t.classList.remove('active'));
                  defaultTab.classList.add('active');
-                 renderTimeline('day8');
+                 renderTimeline('實用連結');
             } else {
                  // Fallback to links if day8 isn't found
                  renderLinks();
