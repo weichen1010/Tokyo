@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOKYO EPBAE 🗼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        /* Navigation Tabs: Responsive adjustments */
+        .nav-tab {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-tab.active {
+            border-bottom-color: #D97706;
+            color: #D97706;
+            font-weight: 700;
+        }
+        /* Timeline Icon Hover Effect */
+        .timeline-item .icon {
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover .icon {
+            transform: scale(1.2);
+        }
+        /* Style for linkable event cards */
+        .link-card {
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        .link-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: #fefcfb;
+        }
+        /* Ensure scrollable tabs on small screens */
+        .nav-scroll-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+            scrollbar-width: none; /* Firefox */
+        }
+        .nav-scroll-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome/Safari/Opera */
+        }
+        /* Style for in-text links in descriptions */
+        .description-link {
+            color: #059669; /* Tailwind's emerald-600 */
+            text-decoration: underline;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-amber-800">TOKYO EPBAE 🗼</h1>
+            <p class="text-base sm:text-lg text-stone-600 mt-2">一趟探索城市文化與美食的旅程</p>
+        </header>
+
+        <div class="nav-scroll-wrapper">
+            <nav class="flex justify-start whitespace-nowrap border-b border-stone-200 mb-8 sm:justify-center">
+                <button data-tab="links" class="nav-tab py-3 px-4 sm:px-6 text-base">實用連結</button>
+                <button data-tab="day1" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 1</button>
+                <button data-tab="day2" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 2</button>
+                <button data-tab="day3" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 3</button>
+                <button data-tab="day4" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 4</button>
+                <button data-tab="day5" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 5</button>
+                <button data-tab="day6" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 6</button>
+                <button data-tab="day7" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 7</button>
+                <button data-tab="day8" class="nav-tab py-3 px-4 sm:px-6 text-base active">Day 8</button>
+                <button data-tab="day9" class="nav-tab py-3 px-4 sm:px-6 text-base">Day 9</button>
+            </nav>
+        </div>
+
+        <main id="content-container">
+            <!-- Content will be injected by JavaScript -->
+        </main>
+    </div>
+
+    <script>
+        const tripData = {
+            // 實用連結頁面資料
+            links: {
+                title: "旅行實用連結",
+                description: "以下是您為本次旅行準備的重要連結，涵蓋了天氣、富士山能見度，購物中心與最新的扭蛋資訊，方便您快速查詢。",
+                locations: [
+                    { name: "富士山能見度", icon: "🗻", url: "https://fuji-san.info/zh-tw/index.html", category: "天氣/景觀查詢" },
+                    { name: "東京天氣預報", icon: "☀️", url: "https://tenki.jp/lite/forecast/3/", category: "天氣/景觀查詢" },
+                    // --- 扭蛋連結 ---
+                    { name: "T-ARTS 扭蛋資訊", icon: "🪙", url: "https://www.takaratomy-arts.co.jp/items/gacha/", category: "扭蛋/娛樂資訊" },
+                    { name: "BANDAI 轉蛋資訊", icon: "🕹️", url: "https://gashapon.jp/", category: "扭蛋/娛樂資訊" },
+                    // ------------------
+                    { name: "澀谷PARCO 品牌列表", icon: "🛍️", url: "https://shibuya.parco.jp.t.aiv.hp.transer.com/shop/?search=", category: "購物資訊" },
+                    { name: "澀谷PARCO 樓層指南", icon: "🗺️", url: "https://shibuya.parco.jp.t.aiv.hp.transer.com/floor/", category: "購物資訊" },
+                    { name: "伊勢丹百貨 品牌列表", icon: "💎", url: "https://cp.mistore.jp/global/zh_hant/shinjuku/brand.html", category: "購物資訊" },
+                    { name: "伊勢丹百貨 樓層指南", icon: "🧭", url: "https://www.mistore.jp.t.az.hp.transer.com/store/shinjuku/shops.html", category: "購物資訊" }
+                ]
+            },
+            // Day 1 行程資料
+            day1: {
+                title: "Day 1：抵達與秋葉原初探",
+                events: [
+                    { time: "17:15", icon: "✈️", title: "抵達成田機場", description: "辦理入境手續，領取行李。" },
+                    { time: "交通", icon: "🚆", title: "搭乘 Skyliner 前往上野", description: "從機場搭乘 Skyliner 前往京成上野站，車程約41分鐘。**請在上野站兌換地鐵48小時券**。" },
+                    { time: "18:20~20:00", icon: "🍜", title: "晚餐：鴨to蔥 上野店", description: "品嚐知名的鴨肉拉麵，預計用餐時間至 20:00。", url: "https://maps.app.goo.gl/eYctyUJh4myjzDHe9" },
+                    { time: "交通", icon: "🚇", title: "搭地鐵前往秋葉原", description: "從上野站搭乘地鐵前往秋葉原，開始晚間行程。" },
+                    { time: "20:20~21:45", icon: "🛍️", title: "秋葉原逛街", description: "動漫、電玩與電子產品的聖地，預計逛街時間至 21:45。" },
+                    { time: "22:10~23:00", icon: "🍻", title: "宵夜：hitoma", description: "在秋葉原附近享用宵夜。", url: "https://maps.app.goo.gl/7qbFt6HFGxLiGKw8A" },
+                    { time: "交通", icon: "🏨", title: "返回飯店：東橫INN 東京日本橋馬喰町", description: "搭乘地鐵返回飯店，準備休息。" }
+                ],
+                // Day 1 專屬連結區塊 (秋葉原)
+                shops: {
+                    title: "秋葉原逛街推薦店家",
+                    locations: [
+                        { name: "BIC CAMERA 秋葉原店", icon: "📷", url: "https://maps.app.goo.gl/1VxAyrtxbmZFFfHT7" },
+                        { name: "友都八喜 秋葉原", icon: "🏢", url: "https://maps.app.goo.gl/bmiXLnWdcQNAwuEZA" }
+                    ]
+                }
+            },
+            // Day 2 行程資料
+            day2: {
+                title: "Day 2：經典地標與下町風情",
+                events: [
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往東京鐵塔", description: "從飯店出發，搭乘地鐵前往東京鐵塔區域。" },
+                    { time: "09:30~10:45", icon: "🗼", title: "東京鐵塔拍照", description: "在鐵塔周邊尋找最佳角度拍照留念。" },
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往築地市場", description: "前往築地場外市場，準備享用午餐。" },
+                    { 
+                        time: "11:30~13:15", 
+                        icon: "🍣", 
+                        title: "午餐：築地市場", 
+                        description: `在築地市場品嚐新鮮的海產美食、玉子燒。必吃：<a href="https://maps.app.goo.gl/TTc7U5bNfk92tb967" target="_blank" rel="noopener noreferrer" class="description-link">油炸三明治專賣店 Age.3</a>` 
+                    },
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往福德神社", description: "前往日本橋區域的福德神社。" },
+                    { 
+                        time: "13:35~14:00", 
+                        icon: "⛩️", 
+                        title: "福德神社參拜", 
+                        description: "在小巧精緻的福德神社祈福參拜。", 
+                        url: "https://maps.app.goo.gl/NoMNZoWi2iX5Dgu99" 
+                    },
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往上野", description: "前往上野地區進行購物行程。" },
+                    { time: "14:15~16:25", icon: "🛍️", title: "上野逛街", description: "在上野地區自由逛街購物。" },
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往淺草", description: "前往東京的下町中心——淺草。" },
+                    { time: "16:30~19:25", icon: "🏮", title: "淺草逛街", description: "逛仲見世商店街、感受淺草寺周邊的傳統氛圍。" },
+                    { 
+                        time: "19:30~21:30", 
+                        icon: "🥩", 
+                        title: "晚餐：牛の達人 Beef Professional Asakusa", 
+                        description: "<span class='font-bold text-red-600'> (已訂位) </span> 在淺草享用美味的燒肉晚餐。",
+                        url: "https://maps.app.goo.gl/RBynuumyv1LdrbWz9" 
+                    },
+                    { time: "21:30~22:30", icon: "📸", title: "雷門、隅田川夜景拍照", description: "夜間的雷門與隅田川有美麗的燈光，適合拍攝東京晴空塔和夜間淺草的景色。", url: "https://maps.app.goo.gl/t5z43m7H1M3L32Ww6" },
+                    { time: "交通", icon: "🏨", title: "返回飯店：東橫INN 東京日本橋馬喰町", description: "搭乘地鐵返回飯店休息。" }
+                ],
+                // Day 2 專屬連結區塊 (上野和淺草)
+                shops: {
+                    sections: [
+                        { 
+                            title: "上野逛街地點", 
+                            icon: "🛍️",
+                            locations: [
+                                { name: "LHP 上野", url: "https://maps.app.goo.gl/2NRf4zfSayECnr466" },
+                                { name: "白山眼鏡店 上野本店", url: "https://maps.app.goo.gl/j4LcAXHVrWLCvf8A" },
+                                { name: "Mita Sneakers", url: "https://maps.app.goo.gl/dZzteqkAdZuyiV5w7" },
+                                { name: "OS Drug 上野店藥妝店", url: "https://maps.app.goo.gl/P7oY1RcJ5oLZpjmj9" }
+                            ]
+                        },
+                        { 
+                            title: "淺草逛街地點", 
+                            icon: "🏮",
+                            locations: [
+                                { name: "三麗鷗專賣店 淺草店", url: "https://maps.app.goo.gl/oCTa9HGjpNQVFEra6", note: "18:00打烊" },
+                                { name: "Flower Miffy", url: "https://maps.app.goo.gl/pEDGCY7Xbp31pCzn7", note: "18:30打烊" }
+                            ]
+                        }
+                    ]
+                }
+            },
+            // Day 3 行程資料 - 東京迪士尼海洋
+            day3: {
+                title: "Day 3：東京迪士尼海洋",
+                events: [
+                    { time: "07:00", icon: "🚇", title: "前往舞濱站 (東京迪士尼海洋)", description: "從飯店出發，搭乘交通工具前往東京迪士尼海洋，準備開園入園。" },
+                    { time: "08:00~20:00", icon: "🏰", title: "東京迪士尼海洋全日遊", 
+                      description: "一整天在迪士尼海洋享受奇幻的探險與表演，盡情遊玩。", 
+                      url: "https://maps.app.goo.gl/ZLRHED2c1SLpr9vv7" 
+                    },
+                    { time: "20:00", icon: "🎆", title: "夜間表演與離園", description: "觀賞完閉園前的表演後，準備返回市區。" },
+                    { time: "交通", icon: "🏨", title: "返回飯店：東橫INN 東京日本橋馬喰町", description: "從舞濱站搭乘交通工具返回東京市區飯店休息。" }
+                ]
+            },
+            // Day 4 行程資料 - 富士山河口湖之旅
+            day4: {
+                title: "Day 4：富士山河口湖之旅",
+                events: [
+                    { time: "交通", icon: "🚇", title: "前往東京八重洲總站", 
+                      description: "從飯店出發，搭乘地鐵前往東京八重洲總站（東京站附近）準備搭乘高速巴士。", 
+                      url: "https://maps.app.goo.gl/Tk4pQiiHLx1Nb21XA" 
+                    },
+                    { time: "11:10~13:30", icon: "🚍", title: "搭乘巴士前往河口湖", 
+                      description: "從東京站搭乘高速巴士前往河口湖站，車程約 2.5 小時，預計 13:30 抵達。", 
+                    },
+                    { time: "交通", icon: "🚶", title: "從河口湖站前往飯店", 
+                      description: "方式為步行。從河口湖站步行前往秀峰閣湖月飯店，約 15-20 分鐘。", 
+                    },
+                    { time: "14:00~14:30", icon: "🏨", title: "秀峰閣湖月 Check-in", 
+                      description: "抵達富士山景觀飯店辦理入住手續。", 
+                      url: "https://maps.app.goo.gl/TMy1P4SmzYjHzBsJA" 
+                    },
+                    { time: "14:30~17:00", icon: "🏞️", title: "大石公園、古賀政男紀念公園、音樂森林美術館", 
+                      description: `下午遊覽河口湖畔的知名景點：
+                                      <a href='https://maps.app.goo.gl/hy1RHW7g7HY8pndf9' target='_blank' rel='noopener noreferrer' class='description-link'>大石公園</a>、
+                                      <a href='https://maps.app.goo.gl/FNjUoz1q3b8gd5cq5' target='_blank' rel='noopener noreferrer' class='description-link'>古賀政男記念公園</a>，以及
+                                      <a href='https://maps.app.goo.gl/4asVVDtBU8r76UWs7' target='_blank' rel='noopener noreferrer' class='description-link'>音樂森林美術館</a>，欣賞富士山和湖景。`, 
+                    },
+                    { time: "17:30", icon: "♨️", title: "返回飯店休息與晚餐", description: "回到秀峰閣湖月飯店，準備享用晚餐並享受溫泉設施。" }
+                ]
+            },
+            // Day 5 行程資料
+            day5: {
+                title: "Day 5：河口湖周邊景點與返回新宿",
+                events: [
+                    { time: "08:30", icon: "🚌", title: "飯店接駁車", description: "搭乘秀峰閣湖月飯店接駁車前往河口湖站。" },
+                    { time: "09:00", icon: "🚗", title: "河口湖租車", description: "在河口湖站附近租車，準備開始環湖行程。", url: "https://maps.app.goo.gl/1fSTSGTZKNYb6uX4A" },
+                    { time: "10:00~11:20", icon: "🦢", title: "白鳥浜", description: "湖邊靜謐的景點，適合觀賞富士山倒影。", url: "https://maps.app.goo.gl/az3br4Em8yX57yNi8" },
+                    { time: "11:50~12:50", icon: "⛩️", title: "新倉山淺間公園", description: "登上公園，拍攝富士山、五重塔與城市景觀的經典畫面。", url: "https://maps.app.goo.gl/u8p6oy36KuD36cY4A" },
+                    { time: "13:10~13:30", icon: "🕰️", title: "日川時計店街景", description: "拍攝經典的『富士山街景』，位於商店街的盡頭。", url: "https://maps.app.goo.gl/RgUSC7Ub1xDH4HRK6" },
+                    { time: "13:50", icon: "🔑", title: "還車手續", description: "返回河口湖站附近租車點辦理還車。", url: "https://maps.app.goo.gl/1fSTSGTZKNYb6uX4A" },
+                    { time: "14:00~15:00", icon: "🍲", title: "午餐：ほうとう不動", description: "在河口湖站周邊品嚐當地的特色麵食『餺飥』。", url: "https://maps.app.goo.gl/wLniBqx5PLEMqCYp8" },
+                    { time: "15:00~17:20", icon: "🛍️", title: "河口湖車站附近逛街", description: "在車站周邊的商店購買土產或紀念品。" },
+                    { time: "17:40", icon: "🚄", title: "搭乘富士回遊返回新宿", description: "從河口湖站搭乘特急列車富士回遊，返回新宿，車程約 2 小時。" },
+                    { time: "20:00~21:00", icon: "🌶️", title: "晚餐：AFURI 辛紅", description: "在新宿享用晚餐，AFURI以柚子風味和辛紅（辣味）拉麵聞名。", url: "https://maps.app.goo.gl/kLNy74idxhfc5SCD9" },
+                    { time: "交通", icon: "🏨", title: "入住飯店：東橫INN 新宿御苑前站", description: "搭地鐵前往新宿御苑前站３號出口附近的飯店辦理入住手續。", url: "https://maps.app.goo.gl/hTmbuh8KNdneZ4fv7" }
+                ]
+            },
+            // Day 6 行程資料 (新增)
+            day6: {
+                title: "Day 6：新宿都會休閒與購物",
+                events: [
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往 No.4", description: "從飯店出發，搭乘地鐵前往 No.4 餐廳區域。" },
+                    { time: "09:45~10:45", icon: "🍳", title: "早午餐：No.4", description: "在時尚的 No.4 享用豐盛的早午餐。", url: "https://maps.app.goo.gl/kYEHMsBXXLw5chxi9" },
+                    { time: "11:00~12:00", icon: "🌳", title: "新宿御苑", description: "在都會中心的綠洲——新宿御苑散步，享受寧靜的日式、英式和法式庭園景觀。", url: "https://maps.app.goo.gl/fWpDVGiiVwhGr1Z66" },
+                    { time: "12:00~14:00", icon: "🛍️", title: "新宿逛街 (上半場)", description: "開始在新宿地區進行購物。" },
+                    { time: "14:00~15:30", icon: "🍔", title: "午餐：新宿", description: "在新宿區域享用午餐（餐廳待定）。" },
+                    { time: "15:30~19:30", icon: "🛍️", title: "新宿逛街 (下半場)", description: "繼續在新宿的各大百貨公司和特色店鋪逛街。" },
+                    { time: "19:30~21:00", icon: "🍽️", title: "晚餐：新宿", description: "在新宿享用晚餐（餐廳待定）。" },
+                    { time: "交通", icon: "🏨", title: "返回飯店：東橫INN 新宿御苑前站", description: "搭乘地鐵返回飯店休息。", url: "https://maps.app.goo.gl/hTmbuh8KNdneZ4fv7" }
+                ]
+            },
+            // Day 7 行程資料 (新增)
+            day7: {
+                title: "Day 7：原宿文化、時尚與沙龍體驗",
+                events: [
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往明治神宮", description: "從飯店出發，搭乘地鐵前往明治神宮。" },
+                    { time: "09:50~11:30", icon: "🌲", title: "明治神宮", description: "參拜並感受東京最大的神社之一的莊嚴氛圍。", url: "https://maps.app.goo.gl/xDWwuny4iEEKaSXu7" },
+                    { time: "11:40~13:00", icon: "🍜", title: "午餐：麵散", description: "在原宿附近品嚐美味的烏龍麵。", url: "https://maps.app.goo.gl/PBRz4MMWofJPfVy69" },
+                    { time: "13:00~14:15", icon: "🛍️", title: "原宿逛街 (竹下通/表參道)", description: "在原宿地區逛街，感受年輕時尚的氣息。" },
+                    { time: "14:30~16:30", icon: "💇‍♀️", title: "燙頭髮：KATETAYLOR", description: "在原宿沙龍進行燙髮或美髮體驗。", url: "https://maps.app.goo.gl/D6pLMkSLGZy5D8di9" },
+                    { time: "16:30~19:10", icon: "🛍️", title: "原宿逛街 (續)", description: "繼續在原宿或表參道區域購物。" },
+                    { time: "19:30~21:00", icon: "🍽️", title: "晚餐：原宿", description: "在原宿區域享用晚餐（餐廳待定）。" },
+                    { time: "交通", icon: "🏨", title: "返回飯店：東橫INN 新宿御苑前站", description: "搭乘地鐵返回飯店休息。", url: "https://maps.app.goo.gl/hTmbuh8KNdneZ4fv7" }
+                ]
+            },
+            // Day 8 行程資料 (新增)
+            day8: {
+                title: "Day 8：目黑川、代官山與澀谷繁華之旅",
+                events: [
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往中目黑", description: "從飯店出發，搭乘地鐵前往中目黑。" },
+                    { time: "10:00~11:00", icon: "☕", title: "中目黑逛街 (咖啡廳)", description: "在中目黑地區的特色咖啡廳和商店街漫步。" },
+                    { time: "11:00~12:50", icon: "🛍️", title: "代官山逛街", description: "在代官山地區的高級精品店和設計師商店購物。" },
+                    { time: "交通", icon: "🚇", title: "搭乘地鐵前往澀谷", description: "前往澀谷區域，準備享用午餐。" },
+                    { time: "13:15~14:15", icon: "🍜", title: "午餐：SUBA VS", description: "在澀谷品嚐烏龍麵或日式麵食。", url: "https://maps.app.goo.gl/MX4YSc7cGPcWzsWG8" },
+                    { time: "14:15~19:00", icon: "🛍️", title: "澀谷逛街", description: "在澀谷 109、澀谷 Parco 等地盡情購物。" },
+                    { 
+                        time: "19:00~20:30", 
+                        icon: "🦀", 
+                        title: "晚餐：螃蟹道樂 澀谷公園通店", 
+                        description: "<span class='font-bold text-red-600'> (已訂位) </span> 在澀谷享用美味的螃蟹料理。", 
+                        url: "https://maps.app.goo.gl/zjzki2EbwCwmbsee7" 
+                    },
+                    { time: "交通", icon: "🏨", title: "返回飯店：東橫INN 新宿御苑前站", description: "搭乘地鐵返回飯店休息。", url: "https://maps.app.goo.gl/hTmbuh8KNdneZ4fv7" }
+                ]
+            },
+            // Day 9 行程資料 (新增 - 離境日)
+            day9: {
+                title: "Day 9：東京再見與返程",
+                events: [
+                    { time: "09:00~11:00", icon: "☕", title: "早晨：吃東西、逛逛", description: "在飯店周邊享用早餐或進行最後的輕鬆散步和伴手禮採購。" },
+                    { time: "11:30", icon: "🚈", title: "交通：搭乘大眾運輸前往成田機場", description: "從飯店出發，搭乘交通工具前往成田機場 (NRT)。" },
+                    { time: "13:00", icon: "✈️", title: "抵達成田機場", description: "辦理登機手續、退稅，並在機場內進行最後的購物或用餐。" },
+                    { time: "15:30", icon: "🛫", title: "航班起飛", description: "搭乘您的班機，結束愉快的東京之旅。" }
+                ]
+            }
+        };
+
+        const contentContainer = document.getElementById('content-container');
+        const navTabs = document.querySelectorAll('.nav-tab');
+
+        // 實用連結頁面渲染
+        const renderLinks = () => {
+            const data = tripData.links;
+            
+            // 依分類分組連結
+            const groupedLinks = data.locations.reduce((acc, link) => {
+                acc[link.category] = acc[link.category] || [];
+                acc[link.category].push(link);
+                return acc;
+            }, {});
+
+            const sectionsHtml = Object.keys(groupedLinks).map(category => {
+                const linkCards = groupedLinks[category].map(link => `
+                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" 
+                       class="flex flex-col items-center justify-center p-4 bg-white border border-stone-100 rounded-lg shadow-md hover:shadow-lg hover:bg-amber-50 transition duration-300 transform hover:scale-[1.02] cursor-pointer text-center h-full">
+                        <span class="text-3xl mb-2">${link.icon}</span>
+                        <p class="font-bold text-base text-stone-800">${link.name}</p>
+                        <span class="text-xs text-amber-600 mt-1">在新視窗開啟 ↗</span>
+                    </a>
+                `).join('');
+
+                return `
+                    <section class="mb-8">
+                        <h3 class="text-xl font-bold text-amber-700 border-b pb-2 mb-4">${category}</h3>
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                            ${linkCards}
+                        </div>
+                    </section>
+                `;
+            }).join('');
+
+            contentContainer.innerHTML = `
+                <div id="links" class="tab-content space-y-6">
+                    <header class="text-center bg-white p-4 sm:p-6 rounded-lg shadow-sm">
+                        <h2 class="text-2xl font-bold text-amber-800 mb-2">${data.title}</h2>
+                        <p class="text-sm text-stone-600">${data.description}</p>
+                    </header>
+                    
+                    <div class="space-y-8">
+                        ${sectionsHtml}
+                    </div>
+                </div>
+            `;
+        };
+
+        // 渲染專門的連結區塊 (Day 1: 逛街, Day 2: 逛街)
+        const renderShopSection = (day) => {
+            const data = tripData[day].shops;
+            if (!data) return '';
+
+            // Day 1 結構：只有一個 shops.locations 陣列
+            if (day === 'day1') {
+                const shopListHtml = data.locations.map(shop => `
+                    <a href="${shop.url}" target="_blank" rel="noopener noreferrer" 
+                       class="relative flex flex-col justify-center items-center p-4 rounded-xl shadow-xl bg-amber-50 hover:bg-amber-100 transition duration-300 transform hover:scale-[1.02] cursor-pointer aspect-square">
+                        <div class="text-center">
+                            <p class="text-3xl sm:text-4xl mb-2 text-stone-700">${shop.icon}</p>
+                            <p class="font-bold text-base sm:text-xl text-amber-800">${shop.name}</p>
+                            <p class="text-xs text-stone-500 mt-1">點擊查看地圖</p>
+                        </div>
+                    </a>
+                `).join('');
+
+                return `
+                    <section class="bg-stone-50 p-4 sm:p-6 rounded-xl shadow-inner mt-6 sm:mt-8">
+                        <h3 class="text-xl sm:text-2xl font-bold text-amber-700 mb-4 sm:mb-6 border-b pb-2">${data.title}</h3>
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 sm:gap-4">
+                            ${shopListHtml}
+                        </div>
+                    </section>
+                `;
+            }
+
+            // Day 2 結構：包含多個 sections (上野、淺草)
+            if (day === 'day2' && data.sections) {
+                const sectionsHtml = data.sections.map(section => {
+                    const shopListHtml = section.locations.map(shop => `
+                        <a href="${shop.url}" target="_blank" rel="noopener noreferrer" 
+                           class="relative flex flex-col justify-center items-center p-4 rounded-xl shadow-xl bg-amber-50 hover:bg-amber-100 transition duration-300 transform hover:scale-[1.02] cursor-pointer aspect-square">
+                            <div class="text-center">
+                                <p class="text-3xl sm:text-4xl mb-2 text-stone-700">${section.icon}</p>
+                                <p class="font-bold text-base sm:text-xl text-amber-800">${shop.name}</p>
+                                <!-- 新增備註資訊，如果有 note 屬性 -->
+                                ${shop.note ? `<p class="text-xs text-red-600 font-medium mt-1">${shop.note}</p>` : ''}
+                                <p class="text-xs text-stone-500 mt-1">點擊查看地圖</p>
+                            </div>
+                        </a>
+                    `).join('');
+
+                    return `
+                        <div class="mb-6">
+                            <h4 class="text-lg sm:text-xl font-bold text-amber-600 mb-3 flex items-center">
+                                <span class="mr-2">${section.icon}</span> ${section.title}
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 sm:gap-4">
+                                ${shopListHtml}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <section class="bg-stone-50 p-4 sm:p-6 rounded-xl shadow-inner mt-6 sm:mt-8">
+                        <h3 class="text-xl sm:text-2xl font-bold text-amber-700 mb-4 sm:mb-6 border-b pb-2">Day 2 逛街地點導航</h3>
+                        ${sectionsHtml}
+                    </section>
+                `;
+            }
+
+            return '';
+        }
+
+
+        const renderTimeline = (day) => {
+            const data = tripData[day];
+            if (!data) return;
+
+            // 1. Generate timeline events (All events now render as standard or linkable cards)
+            const eventsHtml = data.events.map((event, index) => {
+                // 如果 description 包含 HTML 標籤 (例如 in-text link)，則不將整張卡片設為連結 (isLinkable = false)
+                const hasHtmlInDescription = event.description.includes('<a') || event.description.includes('<br>');
+                const isLinkable = !!event.url && !hasHtmlInDescription; 
+                
+                const elementTag = isLinkable ? 'a' : 'div';
+                const linkAttributes = isLinkable ? `href="${event.url}" target="_blank" rel="noopener noreferrer"` : '';
+                const cursorClass = isLinkable ? 'link-card transition duration-300' : '';
+
+                return `
+                    <div class="timeline-item flex items-start space-x-4">
+                        <div class="flex flex-col items-center">
+                            <div class="icon w-10 h-10 sm:w-12 sm:h-12 bg-amber-100 rounded-full flex items-center justify-center text-xl sm:text-2xl shadow-sm">${event.icon}</div>
+                            ${index < data.events.length - 1 ? '<div class="w-0.5 h-20 sm:h-24 bg-amber-200"></div>' : ''}
+                        </div>
+                        <div class="flex-1 pb-8 sm:pb-10">
+                            <${elementTag} class="block bg-white p-4 sm:p-5 rounded-lg shadow-sm ${cursorClass}" ${linkAttributes}>
+                                <p class="text-xs sm:text-sm font-semibold text-amber-600 flex justify-between items-center">
+                                    <span>${event.time}</span>
+                                    ${isLinkable ? '<span class="text-xs ml-2 bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full">🔗 地圖</span>' : ''}
+                                </p>
+                                <h4 class="text-lg sm:text-xl font-bold mt-1 text-stone-800">${event.title}</h4>
+                                <p class="mt-1 text-sm text-stone-600">${event.description}</p>
+                            </${elementTag}>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // 2. Dedicated shop section (only for Day 1 or Day 2)
+            const dedicatedShopSection = (day === 'day1' || day === 'day2') ? renderShopSection(day) : '';
+
+            // 3. Final HTML structure
+            contentContainer.innerHTML = `
+                <div id="${day}" class="tab-content">
+                     <section class="bg-white p-4 sm:p-6 rounded-lg shadow-sm mb-6 sm:mb-8 text-center">
+                        <h2 class="text-xl sm:text-2xl font-bold text-amber-700">${data.title}</h2>
+                    </section>
+                    <div class="timeline-container">
+                        ${eventsHtml}
+                    </div>
+                    ${dedicatedShopSection}
+                </div>
+            `;
+        };
+        
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                navTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const tabName = tab.dataset.tab;
+                if (tabName === 'links') {
+                    renderLinks();
+                } else {
+                    renderTimeline(tabName);
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 預設載入 Day 8
+            const defaultTab = document.querySelector('.nav-tab[data-tab="day8"]');
+            if (defaultTab) {
+                 navTabs.forEach(t => t.classList.remove('active'));
+                 defaultTab.classList.add('active');
+                 renderTimeline('day8');
+            } else {
+                 // Fallback to links if day8 isn't found
+                 renderLinks();
+            }
+        });
+    </script>
+</body>
+</html>
